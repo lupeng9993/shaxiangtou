@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 只匹配 USB Video Class 设备，避免其它 USB 设备也弹本应用 -->
+<resources>
+    <usb-device class="14" />
+    <usb-device
+        class="239"
+        protocol="1"
+        subclass="2" />
+</resources>
