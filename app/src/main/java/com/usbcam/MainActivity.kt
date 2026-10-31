@@ -29,7 +29,7 @@ import android.widget.Toast
 import com.herohan.uvcapp.CameraException
 import com.herohan.uvcapp.CameraHelper
 import com.herohan.uvcapp.ICameraHelper
-import com.herohan.uvcapp.ImageCapture
+import com.herohan.uvcapp.IImageCapture
 import com.herohan.uvcapp.VideoCapture
 import com.serenegiant.opengl.renderer.MirrorMode
 import com.serenegiant.usb.Size
@@ -533,10 +533,12 @@ class MainActivity : Activity(), ICameraHelper.StateCallback {
         }
 
         val file = newMediaFile("IMG", "jpg", Environment.DIRECTORY_PICTURES)
-        val options = ImageCapture.OutputFileOptions.Builder(file).build()
+        // 注意：Kotlin 不会继承 Java 接口的嵌套类，
+        // 所以这里必须写 IImageCapture.XXX，不能写 ImageCapture.XXX。
+        val options = IImageCapture.OutputFileOptions.Builder(file).build()
 
-        h.takePicture(options, object : ImageCapture.OnImageCaptureCallback {
-            override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+        h.takePicture(options, object : IImageCapture.OnImageCaptureCallback {
+            override fun onImageSaved(outputFileResults: IImageCapture.OutputFileResults) {
                 runOnUiThread {
                     val exported = MediaStoreExport.export(this@MainActivity, file, false)
                     toast(
